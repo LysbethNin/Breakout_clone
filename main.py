@@ -27,19 +27,15 @@ brick_green.x = brick_blue.x
 brick_green.y = brick_blue.y + brick_green.height
 
 
-# TODO element_grey_rectangle
 brick_grey = Actor('element_grey_rectangle')
 brick_grey.x = brick_blue.x
 brick_grey.y = brick_green.y + brick_grey.height
-# TODO element_purple_rectangle
 brick_purple = Actor('element_purple_rectangle')
 brick_purple.x = brick_blue.x
 brick_purple.y = brick_grey.y + brick_purple.height
-# TODO element_red_rectangle
 brick_red = Actor('element_red_rectangle')
 brick_red.x = brick_blue.x
 brick_red.y = brick_purple.y + brick_red.height
-# TODO element_yellow_rectangle
 brick_yellow = Actor('element_yellow_rectangle')
 brick_yellow.x = brick_blue.x
 brick_yellow.y = brick_red.y + brick_yellow.height

@@ -11,6 +11,12 @@ HEIGHT = 500
 brick_img = pygame.image.load('images/element_blue_rectangle.png')
 WIDTH_BRICK = brick_img.get_width()
 HEIGHT_BRICK= brick_img.get_height()
+screen_limit = WIDTH - WIDTH_BRICK
+
+#
+x = WIDTH_BRICK
+y = HEIGHT_BRICK
+brick_image_list = ['element_blue_rectangle', 'element_green_rectangle', 'element_grey_rectangle', 'element_purple_rectangle', 'element_red_rectangle', 'element_yellow_rectangle']
 
 # Background
 background_img = pygame.image.load('images/purple_nebula.png')
@@ -24,28 +30,7 @@ ball = Actor('ballgrey')
 ball.x = paddle.x
 ball.y = paddle.y - paddle.height
 
-brick_image_list = ['element_blue_rectangle', 'element_green_rectangle', 'element_grey_rectangle', 'element_purple_rectangle', 'element_red_rectangle', 'element_yellow_rectangle']
 brick_list = []
-
-
-def create_brick(image, x, y):
-    brick = Actor(image)
-    brick.topleft = (x, y)
-    return brick
-
-y = HEIGHT_BRICK
-for img in brick_image_list:
-    brick = create_brick(img, WIDTH_BRICK, y)
-    brick_list.append(brick)
-    y += HEIGHT_BRICK
-
-
-def place_row_bricks(brick):
-    screen_limit = WIDTH - WIDTH_BRICK
-    while brick.x < WIDTH - WIDTH_BRICK:
-        brick.draw()
-        brick.x += WIDTH_BRICK
-
 
 def draw():
     screen.clear()
@@ -53,7 +38,26 @@ def draw():
     paddle.draw()
     ball.draw()
     for brick in brick_list:
-        place_row_bricks(brick)
+        brick.draw()
 
+def create_brick(image, x, y):
+    bar_x = x
+    bar_y = y
+    while bar_x < screen_limit:
+        brick = Actor(image)
+        brick.topleft = (bar_x, bar_y)
+        bar_x += WIDTH_BRICK
+        brick_list.append(brick)
+
+
+def update():
+    if keyboard.left and paddle.left > 0:
+            paddle.x -= 4
+    elif keyboard.right and paddle.right < WIDTH :
+        paddle.x += 4
+
+for img in brick_image_list:
+    create_brick(img,x, y)
+    y += HEIGHT_BRICK
 
 pgzrun.go()

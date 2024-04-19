@@ -28,6 +28,9 @@ FONT_NAME = "arial"
 
 # Variable pour stocker l'état du texte (visible ou non)
 text_visible = True
+# End Game
+game_over = False
+game_win = False
 
 # Background
 background_img = pygame.image.load('images/purple_nebula.png')
@@ -61,6 +64,10 @@ def draw():
     for brick in brick_list:
         brick.draw()
 
+    if game_over:
+        screen.draw.text("Game Over", center=(WIDTH/2, HEIGHT/2), fontsize=50, color="red")
+    if game_win:
+        screen.draw.text("You Win!", center=(WIDTH/2, HEIGHT/2), fontsize=50, color="red")
 
 def create_brick(image, x, y):
     bar_x = x
@@ -74,7 +81,7 @@ def create_brick(image, x, y):
 
 def moving_paddle():
     if keyboard.left and paddle.left > 0:
-            paddle.x -= 4
+        paddle.x -= 4
     elif keyboard.right and paddle.right < WIDTH :
         paddle.x += 4
 def moving_ball():
@@ -83,23 +90,27 @@ def moving_ball():
     ball.y -= ball_y_direction
     if (ball.x <= 0) or (ball.x >= WIDTH) :
         ball_x_direction *= -1
-    if ball.y <= 0 or ball.y >= HEIGHT:
+    if ball.y <= 0:
         ball_y_direction *= -1
 
+
 def update():
-    global ball_x_direction, ball_y_direction
+    global ball_x_direction, ball_y_direction, game_win, game_over
     moving_paddle()
     moving_ball()
     for brick in brick_list:
         if ball.colliderect(brick):
             brick_list.remove(brick)
             ball_x_direction *= -1
+    if not brick_list:
+        game_win = True
 
     if ball.colliderect(paddle):
         direction = random.randint(0,1)
         if direction:
             ball_y_direction *= -1
-
+    if ball.y >= HEIGHT:
+        game_over = True
 
 for img in brick_image_list:
     create_brick(img,x, y)
